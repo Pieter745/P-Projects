@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Portfolio</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="projects.html" class="active">Projects</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header">
+    <div class="container">
+      <span class="hero-label">Completed work</span>
+      <h1 class="page-title">All Projects</h1>
+      <p class="page-sub">Click on any project image to explore the full details.</p>
+
+      <!-- Filter bar -->
+      <div class="filter-bar" id="filter-bar">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <!-- more buttons injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <main class="section">
+    <div class="container">
+      <div class="grid" id="projects-grid"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Built with GitHub Pages · <a href="https://github.com">github.com/yourusername</a></p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script>
+    const grid = document.getElementById('projects-grid');
+    const filterBar = document.getElementById('filter-bar');
+
+    // Build category filters
+    const cats = [...new Set(projects.map(p => p.category))];
+    cats.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'filter-btn';
+      btn.dataset.filter = c;
+      btn.textContent = c;
+      filterBar.appendChild(btn);
+    });
+
+    function renderCards(list) {
+      grid.innerHTML = '';
+      list.forEach((p, i) => {
+        const card = document.createElement('a');
+        card.href = `projects/${p.id}.html`;
+        card.className = 'card';
+        card.style.animationDelay = `${i * 60}ms`;
+        card.innerHTML = `
+          <div class="card-img-wrap">
+            <img src="${p.thumb}" alt="${p.title}" onerror="this.src='../images/placeholder.svg'">
+            <span class="card-tag">${p.category}</span>
+          </div>
+          <div class="card-body">
+            <h3>${p.title}</h3>
+            <p>${p.summary}</p>
+            <span class="card-year">${p.year}</span>
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    renderCards(projects);
+
+    filterBar.addEventListener('click', e => {
+      if (!e.target.matches('.filter-btn')) return;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      const f = e.target.dataset.filter;
+      renderCards(f === 'all' ? projects : projects.filter(p => p.category === f));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Projects Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="index.html" class="nav-logo">Portfolio</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="projects.html">Projects</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <span class="hero-label">Welcome</span>
+      <h1 class="hero-title">My<br><em>Project</em><br>Portfolio</h1>
+      <p class="hero-sub">A collection of completed projects — click any project to explore the full details, process, and outcomes.</p>
+      <a href="projects.html" class="btn-primary">View All Projects →</a>
+    </div>
+    <div class="hero-deco" aria-hidden="true">
+      <div class="deco-ring r1"></div>
+      <div class="deco-ring r2"></div>
+      <div class="deco-ring r3"></div>
+    </div>
+  </header>
+
+  <!-- FEATURED PROJECTS PREVIEW -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="grid" id="featured-grid">
+        <!-- Cards injected by JS -->
+      </div>
+      <div class="center-cta">
+        <a href="projects.html" class="btn-outline">See all projects →</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>Built with GitHub Pages · <a href="https://github.com">github.com/yourusername</a></p>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script>
+    const grid = document.getElementById('featured-grid');
+    const featured = projects.slice(0, 3);
+    featured.forEach(p => {
+      grid.innerHTML += `
+        <a href="projects/${p.id}.html" class="card">
+          <div class="card-img-wrap">
+            <img src="${p.thumb}" alt="${p.title}" onerror="this.src='images/placeholder.svg'">
+            <span class="card-tag">${p.category}</span>
+          </div>
+          <div class="card-body">
+            <h3>${p.title}</h3>
+            <p>${p.summary}</p>
+            <span class="card-year">${p.year}</span>
+          </div>
+        </a>`;
+    });
+  </script>
+</body>
+</html>
